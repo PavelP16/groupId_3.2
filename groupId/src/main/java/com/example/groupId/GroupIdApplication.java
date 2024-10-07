@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class GroupIdApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(GroupIdApplication.class, args);
+		SpringApplication.run(GroupIdApplication.class, args); //01:09
 	}
 
 }

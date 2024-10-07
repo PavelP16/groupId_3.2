@@ -1,11 +1,18 @@
 package com.example.groupId.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
 
 import java.util.Objects;
+@Entity
 
 public class Student {
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)// небудет сетерить новый id, только для чтение будет.
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     private int age;
@@ -13,6 +20,9 @@ public class Student {
     public Student( String name, int age) {
         this.name = name;
         this.age = age;
+    }
+
+    public Student() {
     }
 
     public Long getId() {

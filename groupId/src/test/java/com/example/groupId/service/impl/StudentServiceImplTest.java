@@ -3,6 +3,8 @@ package com.example.groupId.service.impl;
 import com.example.groupId.model.Student;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 
@@ -10,9 +12,10 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
-
+@SpringBootTest
 class StudentServiceImplTest {
-    private final StudentService studentService = new StudentServiceImpl();
+    @Autowired
+    private  StudentService studentService;
 
     @Test
     @DisplayName("Добавление студента")
