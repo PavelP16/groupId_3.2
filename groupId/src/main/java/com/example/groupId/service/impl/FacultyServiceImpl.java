@@ -4,6 +4,7 @@ package com.example.groupId.service.impl;
 import com.example.groupId.exception.FacultyNotFoundException;
 import com.example.groupId.model.Faculty;
 
+import com.example.groupId.model.Student;
 import com.example.groupId.repository.FacultyRepository;
 import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Service;
@@ -54,4 +55,12 @@ public class FacultyServiceImpl implements FacultyService {
                 .filter(faculty -> faculty.getColor().equals(color))
                 .toList();
     }
+
+    @Override
+    public List<Faculty> getFacultyByColorOrName(String color,String name){
+        return facultyRepository.findByColorIgnoreCaseOrNameIgnoreCase(color,name);
+    }
+
+
+
 }

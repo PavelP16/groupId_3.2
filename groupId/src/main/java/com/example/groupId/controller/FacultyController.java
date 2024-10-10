@@ -1,10 +1,13 @@
 package com.example.groupId.controller;
 
 import com.example.groupId.model.Faculty;
+import com.example.groupId.model.Student;
 import com.example.groupId.service.impl.FacultyService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import static org.apache.coyote.http11.Constants.a;
 
 @RestController
 @RequestMapping("/faculty")
@@ -42,6 +45,12 @@ public class FacultyController {
     @GetMapping("/get/by-color")
     public List<Faculty> getAllByColor(@RequestParam("color") String color) {
         return facultyService.getAllByColor(color);
+    }
+
+    @GetMapping("/get/by-color-or-name")
+    public List<Faculty> getFacultyByColorOrName(@RequestParam ("color") String color,
+                                                 @RequestParam("name")String name) {
+        return facultyService.getFacultyByColorOrName(color,name);
     }
 
 }
