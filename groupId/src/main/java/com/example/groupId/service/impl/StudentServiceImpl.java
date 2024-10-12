@@ -1,16 +1,18 @@
 package com.example.groupId.service.impl;
 
+
 import com.example.groupId.exception.StudentNotFoundException;
 import com.example.groupId.model.Faculty;
 import com.example.groupId.model.Student;
 import com.example.groupId.repository.FacultyRepository;
+
+
 import com.example.groupId.repository.StudentRepository;
-import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
+
 import java.util.List;
-import java.util.Map;
+
 
 @Service
 public class StudentServiceImpl implements StudentService {
@@ -69,11 +71,11 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public List<Student> findByFacultyId(long id) {
+    public List<Student> findByStudentId(long id) {
         return facultyRepository.findById(id).orElseThrow().getStudents();
     }
 
-
-
-
+    public List<Student>test(long id){
+        return studentRepository.findByFacultyId(id);
+    }
 }
