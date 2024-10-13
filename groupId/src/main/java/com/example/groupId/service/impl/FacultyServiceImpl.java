@@ -61,6 +61,13 @@ public class FacultyServiceImpl implements FacultyService {
         return facultyRepository.findByColorIgnoreCaseOrNameIgnoreCase(color,name);
     }
 
+    @Override
+    public List<Student> findStudentsByFacultyId(long facultyId) {
+        Faculty faculty = facultyRepository.findById(facultyId)
+                .orElseThrow(() -> new FacultyNotFoundException(facultyId));
+        return faculty.getStudents(); // возвращаем список студентов, связанных с факультетом
+    }
+
 
 
 }

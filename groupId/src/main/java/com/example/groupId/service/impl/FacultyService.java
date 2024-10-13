@@ -1,6 +1,7 @@
 package com.example.groupId.service.impl;
 
 import com.example.groupId.model.Faculty;
+import com.example.groupId.model.Student;
 
 
 import java.util.List;
@@ -18,6 +19,9 @@ public interface FacultyService {
 
 
     List<Faculty> getFacultyByColorOrName(String color,String name);
+
+
+    List<Student> findStudentsByFacultyId(long facultyId);
 
 
 
