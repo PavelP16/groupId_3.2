@@ -18,6 +18,11 @@ public class FacultyController {
         this.facultyService = facultyService;
     }
 
+    @GetMapping("/{id}/students")
+    public List<Student> getStudentsByFacultyId(@PathVariable("id") long id) {
+        return facultyService.findStudentsByFacultyId(id);
+    }
+
     @PostMapping("/add")
     public Faculty addFaculty(@RequestBody Faculty faculty) {
         return facultyService.addFaculty(faculty);
