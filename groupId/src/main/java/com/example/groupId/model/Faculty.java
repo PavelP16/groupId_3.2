@@ -12,8 +12,8 @@ public class Faculty {
     private Long id;
     private String name;
     private String color;
-    @OneToMany
-    @JsonBackReference
+    @OneToMany(mappedBy = "faculty", cascade = CascadeType.ALL)
+
     private List<Student> students;
 
     public Faculty(String name, String color) {
