@@ -6,12 +6,12 @@ import com.example.groupId.model.Faculty;
 
 import com.example.groupId.model.Student;
 import com.example.groupId.repository.FacultyRepository;
-import jakarta.annotation.PostConstruct;
+
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
+
 import java.util.List;
-import java.util.Map;
+
 
 @Service
 public class FacultyServiceImpl implements FacultyService {
@@ -68,6 +68,10 @@ public class FacultyServiceImpl implements FacultyService {
         return faculty.getStudents(); // возвращаем список студентов, связанных с факультетом
     }
 
+//    @Override
+//    public Object getAllFaculties() {
+//        return null;
+//    }
 
 
 }

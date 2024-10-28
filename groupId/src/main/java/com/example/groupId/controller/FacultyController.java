@@ -5,6 +5,7 @@ import com.example.groupId.model.Student;
 import com.example.groupId.service.impl.FacultyService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collection;
 import java.util.List;
 
 import static org.apache.coyote.http11.Constants.a;
@@ -17,6 +18,8 @@ public class FacultyController {
     public FacultyController(FacultyService facultyService) {
         this.facultyService = facultyService;
     }
+
+
 
     @GetMapping("/{id}/students")
     public List<Student> getStudentsByFacultyId(@PathVariable("id") long id) {
