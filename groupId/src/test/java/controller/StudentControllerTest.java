@@ -1,8 +1,8 @@
 package controller;
 
-import com.example.groupId.controller.FacultyController;
-import com.example.groupId.model.Faculty;
-import com.example.groupId.service.impl.FacultyService;
+import com.example.groupId.controller.StudentController;
+import com.example.groupId.model.Student;
+import com.example.groupId.service.impl.StudentService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -15,35 +15,35 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
-@WebMvcTest(FacultyController.class)
-public class FacultyControllerTest {
+@WebMvcTest(StudentController.class)
+public class StudentControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @MockBean
-    private FacultyService facultyService;
+    private StudentService studentService;
 
     @Test
-    public void testAddFaculty() throws Exception {
-        Faculty faculty = new Faculty("Engineering", "Red");
-        given(facultyService.addFaculty(faculty)).willReturn(faculty);
+    public void testAddStudent() throws Exception {
+        Student student = new Student("John Doe", 20);
+        given(studentService.addStudent(student)).willReturn(student);
 
-        mockMvc.perform(post("/faculty/add")
+        mockMvc.perform(post("/student/add")
                         .contentType("application/json")
-                        .content("{\"name\":\"Engineering\",\"color\":\"Red\"}"))
+                        .content("{\"name\":\"John Doe\",\"age\":20}"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.name").value("Engineering"));
+                .andExpect(jsonPath("$.name").value("John Doe"));
     }
 
     @Test
-    public void testFindFaculty() throws Exception {
-        given(facultyService.findFaculty(1L)).willReturn(new Faculty(1L, "Engineering", "Red"));
+    public void testFindStudent() throws Exception {
+        given(studentService.findStudent(1L)).willReturn(new Student(1L, "John Doe", 20));
 
-        mockMvc.perform(get("/faculty/1/get"))
+        mockMvc.perform(get("/student/id/get?id=1"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1))
-                .andExpect(jsonPath("$.name").value("Engineering"));
+                .andExpect(jsonPath("$.name").value("John Doe"));
     }
 
 

@@ -24,6 +24,9 @@ public class Faculty {
     public Faculty() {
     }
 
+    public Faculty(long l, String engineering, String red) {
+    }
+
     public List<Student> getStudents() {
         return students;
     }
