@@ -2,7 +2,10 @@ package com.example.groupId.controller;
 
 import com.example.groupId.model.Avatar;
 import com.example.groupId.service.impl.AvatarService;
-import com.example.groupId.service.impl.AvatarServiceImpl;
+
+import org.springdoc.core.converters.models.Pageable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +22,13 @@ public class AvatarController {
 
     public AvatarController(AvatarService avatarService) {
         this.avatarService = avatarService;
+    }
+
+
+    @GetMapping("/list")
+    public Page<Avatar> getAvatars(@RequestParam("page") int page, @RequestParam("size") int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return avatarService.getAvatars(pageable);
     }
 
     @PostMapping(path="/upload",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)

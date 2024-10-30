@@ -82,4 +82,7 @@ public class Faculty {
         sb.append('}');
         return sb.toString();
     }
+
+    public void setDepartment(String science) {
+    }
 }

@@ -2,12 +2,17 @@ package controller;
 
 import com.example.groupId.GroupIdApplication;
 import com.example.groupId.model.Faculty;
+import com.example.groupId.model.Student;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
+import java.util.Arrays;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -33,4 +38,6 @@ public class FacultyControllerIntegrationTest {
     }
 
 
-}
+    }
+
+

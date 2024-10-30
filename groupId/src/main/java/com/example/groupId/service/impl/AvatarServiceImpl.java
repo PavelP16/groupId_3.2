@@ -6,7 +6,9 @@ import com.example.groupId.model.Avatar;
 import com.example.groupId.model.Student;
 import com.example.groupId.repository.AvatarRepository;
 import com.example.groupId.repository.StudentRepository;
+import org.springdoc.core.converters.models.Pageable;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -51,6 +53,19 @@ public class AvatarServiceImpl  implements AvatarService {
         multipartFile.transferTo(filePath);
 
     }
+
+    @Service
+    public class AvatarServiceImpl implements AvatarService {
+        private final AvatarRepository avatarRepository;
+
+        public AvatarServiceImpl(AvatarRepository avatarRepository) {
+            this.avatarRepository = avatarRepository;
+        }
+
+        @Override
+        public Page<Avatar> getAvatars(Pageable pageable) {
+            return avatarRepository.findAll(pageable);
+        }
 
     @Override
     public Avatar getAvatarFromDB(long studentId) {

@@ -53,6 +53,23 @@ public class StudentServiceImpl implements StudentService {
 
     }
 
+
+    @Override
+    public long getStudentsCount() {
+        return studentRepository.getStudentsCount();
+    }
+
+    @Override
+    public double getStudentsAverageAge() {
+        return studentRepository.getStudentsAverageAge();
+    }
+
+    @Override
+    public List<Student> getLastFiveStudents() {
+        return studentRepository.findLastFiveStudents();
+    }
+
+
     @Override
     public List<Student> findAllByAge(int age) {
         return studentRepository.findAll().stream()
@@ -75,7 +92,7 @@ public class StudentServiceImpl implements StudentService {
         return facultyRepository.findById(id).orElseThrow().getStudents();
     }
 
-    public List<Student>test(long id){
+    public List<Student> test(long id) {
         return studentRepository.findByFacultyId(id);
     }
 }

@@ -15,6 +15,12 @@ public interface StudentService {
 
     void updateStudent(long id, Student studentForUpdate);
 
+    long getStudentsCount();
+
+    double getStudentsAverageAge();
+
+    List<Student> getLastFiveStudents();
+
     List<Student> findAllByAge(int age);
 
     List<Student> findByAgeBetween(int ageMin, int ageMax);
