@@ -54,9 +54,9 @@ public class StudentServiceImpl implements StudentService {
     }
 
 
-    @Override
+
     public long getStudentsCount() {
-        return studentRepository.getStudentsCount();
+        return studentRepository.count();
     }
 
     @Override
@@ -95,4 +95,7 @@ public class StudentServiceImpl implements StudentService {
     public List<Student> test(long id) {
         return studentRepository.findByFacultyId(id);
     }
+
+
+
 }

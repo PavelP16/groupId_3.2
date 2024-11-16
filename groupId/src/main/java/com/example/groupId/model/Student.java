@@ -19,10 +19,13 @@ public class Student {
     @JoinColumn(name = "faculty_id")
     private Faculty faculty;
 
-    public Student( String name, int age) {
+
+    public Student(String name, int age) {
         this.name = name;
         this.age = age;
+        this.faculty = null;
     }
+
 
     public Student() {
     }
@@ -82,4 +85,6 @@ public class Student {
         sb.append('}');
         return sb.toString();
     }
+
+
 }

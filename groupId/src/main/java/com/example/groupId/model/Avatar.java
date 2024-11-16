@@ -1,7 +1,6 @@
 package com.example.groupId.model;
 
 import jakarta.persistence.*;
-
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -14,6 +13,7 @@ public class Avatar {
     private long fileSize;
     private String mediaType;
     private byte[] data;
+
     @OneToOne
     private Student student;
 
@@ -26,53 +26,34 @@ public class Avatar {
     }
 
     public Avatar() {
-}
 
-public Long getId() {
-    return id;
-}
+    }
 
-public String getFilePath() {
-    return filePath;
-}
+    // Getters and Setters
+    public Long getId() { return id; }
+    public String getFilePath() { return filePath; }
+    public long getFileSize() { return fileSize; }
+    public String getMediaType() { return mediaType; }
+    public byte[] getData() { return data; }
+    public Student getStudent() { return student; }
 
-public long getFileSize() {
-    return fileSize;
-}
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Avatar avatar)) return false;
 
-public String getMediaType() {
-    return mediaType;
-}
+        return fileSize == avatar.fileSize &&
+                Objects.equals(id, avatar.id) &&
+                Objects.equals(filePath, avatar.filePath) &&
+                Objects.equals(mediaType, avatar.mediaType) &&
+                Arrays.equals(data, avatar.data) &&
+                Objects.equals(student, avatar.student);
+    }
 
-public byte[] getData() {
-    return data;
-}
-
-public Student getStudent() {
-    return student;
-}
-
-@Override
-public boolean equals(Object o) {
-    if (this == o) return true;
-    if (!(o instanceof Avatar avatar)) return false;
-
-    if (fileSize != avatar.fileSize) return false;
-    if (!Objects.equals(id, avatar.id)) return false;
-    if (!Objects.equals(filePath, avatar.filePath)) return false;
-    if (!Objects.equals(mediaType, avatar.mediaType)) return false;
-    if (!Arrays.equals(data, avatar.data)) return false;
-    return Objects.equals(student, avatar.student);
-}
-
-@Override
-public int hashCode() {
-    int result = id != null ? id.hashCode() : 0;
-    result = 31 * result + (filePath != null ? filePath.hashCode() : 0);
-    result = 31 * result + (int) (fileSize ^ (fileSize >>> 32));
-    result = 31 * result + (mediaType != null ? mediaType.hashCode() : 0);
-    result = 31 * result + Arrays.hashCode(data);
-    result = 31 * result + (student != null ? student.hashCode() : 0);
-    return result;
-}
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(id, filePath, fileSize, mediaType, student);
+        result = 31 * result + Arrays.hashCode(data);
+        return result;
+    }
 }

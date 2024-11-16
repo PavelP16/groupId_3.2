@@ -39,84 +39,73 @@ public class AvatarServiceImpl  implements AvatarService {
         this.avatarRepository = avatarRepository;
     }
 
+
     @Override
     public void uploadImage(long studentId, MultipartFile multipartFile) throws IOException {
-        System.out.println(pathDir);
-
+        boolean studentExists = studentRepository.existsById(studentId);
+        if (!studentExists) {
+            throw new StudentNotFoundException(studentId);
+        }
         createDirectory();
 
-        Path filePath = Path.of(pathDir, UUID.randomUUID() + "." + getExtension(multipartFile.getOriginalFilename()));
+        String filePath = pathDir + "/" + UUID.randomUUID() + "." + getExtension(multipartFile.getOriginalFilename());
+        multipartFile.transferTo(new File(filePath));
 
-        createAvatar(studentId, multipartFile, filePath.toString());
-
-
-        multipartFile.transferTo(filePath);
-
+        createAvatar(studentId, multipartFile, filePath);
     }
 
-    @Service
-    public class AvatarServiceImpl implements AvatarService {
-        private final AvatarRepository avatarRepository;
 
-        public AvatarServiceImpl(AvatarRepository avatarRepository) {
-            this.avatarRepository = avatarRepository;
+    @Override
+        public Avatar getAvatarFromDB(long studentId) {
+            boolean studenExist = studentRepository.existsById(studentId);
+            if (!studenExist) {
+                throw new StudentNotFoundException(studentId);
+            }
+
+            return avatarRepository.getByStudentId(studentId)
+                    .orElseThrow(AvatarNotFoundException::new);
         }
 
         @Override
-        public Page<Avatar> getAvatars(Pageable pageable) {
-            return avatarRepository.findAll(pageable);
+        public byte[] getAvatarFromLocal(long studentId) {
+            boolean studenExist = studentRepository.existsById(studentId);
+            if (!studenExist) {
+                throw new StudentNotFoundException(studentId);
+            }
+            Avatar avatar = avatarRepository.getByStudentId(studentId)
+                    .orElseThrow(AvatarNotFoundException::new);
+            String filePath = avatar.getFilePath();
+            try (BufferedInputStream bufferedOutputStream = new BufferedInputStream(new FileInputStream(filePath))) {
+                return bufferedOutputStream.readAllBytes();
+            } catch (IOException e) {
+                throw new IllegalArgumentException("Чтение картинки не удалось" + e.getMessage());
+            }
         }
 
-    @Override
-    public Avatar getAvatarFromDB(long studentId) {
-        boolean studenExist = studentRepository.existsById(studentId);
-        if (!studenExist) {
-            throw new StudentNotFoundException(studentId);
+
+        private void createAvatar(long studentId, MultipartFile multipartFile, String filePath) throws IOException {
+            Student student = studentRepository.findById(studentId)
+                    .orElseThrow(() -> new StudentNotFoundException(studentId));
+            avatarRepository.save(new Avatar(
+                    filePath,
+                    multipartFile.getSize(),
+                    multipartFile.getContentType(),
+                    multipartFile.getBytes(),
+                    student
+            ));
+
         }
 
-        return avatarRepository.getByStudentId(studentId)
-                .orElseThrow(AvatarNotFoundException::new);
-    }
-
-    @Override
-    public byte[] getAvatarFromLocal(long studentId) {
-        boolean studenExist = studentRepository.existsById(studentId);
-        if (!studenExist) {
-            throw new StudentNotFoundException(studentId);
+        private String getExtension(String originalPath) {
+            return originalPath.substring(originalPath.lastIndexOf(".") + 1);
         }
-        Avatar avatar = avatarRepository.getByStudentId(studentId)
-                .orElseThrow(AvatarNotFoundException::new);
-        String filePath = avatar.getFilePath();
-        try (BufferedInputStream bufferedOutputStream = new BufferedInputStream(new FileInputStream(filePath))) {
-            return bufferedOutputStream.readAllBytes();
-        } catch (IOException e) {
-            throw new IllegalArgumentException("Чтение картинки не удалось" + e.getMessage());
+
+        private void createDirectory() throws IOException {
+            Path path = Path.of(pathDir);
+            if (Files.notExists(path)) {
+                Files.createDirectories(path);
+            }
         }
-    }
-
-
-    private void createAvatar(long studentId, MultipartFile multipartFile, String filePath) throws IOException {
-        Student student = studentRepository.findById(studentId)
-                .orElseThrow(() -> new StudentNotFoundException(studentId));
-        avatarRepository.save(new Avatar(
-                filePath,
-                multipartFile.getSize(),
-                multipartFile.getContentType(),
-                multipartFile.getBytes(),
-                student
-        ));
 
     }
 
-    private String getExtension(String originalPath) {
-        return originalPath.substring(originalPath.lastIndexOf(".") + 1);
-    }
-
-    private void createDirectory() throws IOException {
-        Path path = Path.of(pathDir);
-        if (Files.notExists(path)) {
-            Files.createDirectories(path);
-        }
-    }
-
-}

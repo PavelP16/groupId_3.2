@@ -21,7 +21,7 @@ public class StudentController {
         return studentService.addStudent(student);
     }
 
-    @GetMapping("/id/get")
+    @GetMapping("/{id}/get")
     public Student findStudent(@PathVariable long id) {
         return studentService.findStudent(id);
     }
@@ -42,33 +42,12 @@ public class StudentController {
     }
 
     @GetMapping("/get/by-age-between")
-    public List<Student> findByAgeBetween(@RequestParam("ageMin")int ageMin,
-                                             @RequestParam("ageMax")int ageMax) {
-        return studentService.findByAgeBetween(ageMin,ageMax);
+    public List<Student> findByAgeBetween(@RequestParam("ageMin") int ageMin, @RequestParam("ageMax") int ageMax) {
+        return studentService.findByAgeBetween(ageMin, ageMax);
     }
 
     @GetMapping("/{id}/get/faculty")
-    public Faculty findFacultyByStudentId(@PathVariable("id") long id){
+    public Faculty findFacultyByStudentId(@PathVariable("id") long id) {
         return studentService.findFacultyByStudentId(id);
     }
-
-    
-    @GetMapping("/count")
-    public long getStudentsCount() {
-        return studentService.getStudentsCount();
-    }
-
-
-    @GetMapping("/average-age")
-    public double getStudentsAverageAge() {
-        return studentService.getStudentsAverageAge();
-    }
-
-
-    @GetMapping("/last-five")
-    public List<Student> getLastFiveStudents() {
-        return studentService.getLastFiveStudents();
-    }
-
-
 }
