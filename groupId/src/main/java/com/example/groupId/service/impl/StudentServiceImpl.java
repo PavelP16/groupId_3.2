@@ -8,6 +8,9 @@ import com.example.groupId.repository.FacultyRepository;
 
 
 import com.example.groupId.repository.StudentRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 
@@ -17,14 +20,24 @@ import java.util.List;
 @Service
 public class StudentServiceImpl implements StudentService {
 
-    private final StudentRepository studentRepository;
+    @Autowired
+    private  StudentRepository studentRepository;
 
+    public List<Student> getLastFiveStudents() {
+        Pageable pageable = PageRequest.of(0, 5);
+        return studentRepository.findLastFiveStudents(pageable);
+    }
+
+    @Autowired
     private final FacultyRepository facultyRepository;
 
+    @Autowired
     public StudentServiceImpl(StudentRepository studentRepository, FacultyRepository facultyRepository) {
         this.studentRepository = studentRepository;
         this.facultyRepository = facultyRepository;
     }
+
+
 
     @Override
     public Student addStudent(Student student) {
@@ -54,7 +67,6 @@ public class StudentServiceImpl implements StudentService {
     }
 
 
-
     public long getStudentsCount() {
         return studentRepository.count();
     }
@@ -64,10 +76,7 @@ public class StudentServiceImpl implements StudentService {
         return studentRepository.getStudentsAverageAge();
     }
 
-    @Override
-    public List<Student> getLastFiveStudents() {
-        return studentRepository.findLastFiveStudents();
-    }
+
 
 
     @Override

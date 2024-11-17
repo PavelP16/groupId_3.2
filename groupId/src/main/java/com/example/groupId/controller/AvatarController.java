@@ -1,7 +1,11 @@
 package com.example.groupId.controller;
 
 import com.example.groupId.model.Avatar;
+import com.example.groupId.repository.AvatarRepository;
 import com.example.groupId.service.impl.AvatarService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +18,17 @@ import java.io.IOException;
 @RestController
 @RequestMapping("/avatar")
 public class AvatarController {
+
+    @Autowired
+    private AvatarRepository avatarRepository;
+
+    @GetMapping
+    public Page<Avatar> getAllAvatars(@RequestParam(defaultValue = "0") int page,
+                                      @RequestParam(defaultValue = "10") int size) {
+        return avatarRepository.findAll(PageRequest.of(page, size));
+    }
+
+
     private final AvatarService avatarService;
 
     public AvatarController(AvatarService avatarService) {
